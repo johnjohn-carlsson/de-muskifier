@@ -43,6 +43,49 @@ const raccoonFacts = [
     "Raccoons have been depicted in folklore and myths around the world, often as tricksters.",
     "Raccoons are most active during the spring and fall when food is abundant.",
     "Raccoons are sometimes called 'trash pandas' because of their appearance and scavenging habits.",
+    "Raccoons' scientific name is Procyon lotor, which loosely translates to 'washing bear.'",
+    "Raccoons have been observed manipulating complex latches, even opening windows or pet doors.",
+    "Raccoons show remarkable curiosity, often spending considerable time investigating unfamiliar objects.",
+    "The name 'raccoon' is believed to come from an Algonquin term meaning 'he scratches with his hands.'",
+    "In certain areas, raccoons may form temporary foraging groups when food is abundant.",
+    "Coastal raccoons sometimes rely heavily on marine food sources, such as crabs and clams.",
+    "Raccoons' whiskers are highly sensitive, helping them navigate in tight or dark places.",
+    "In some regions, raccoons help control rodent and insect populations by preying on them.",
+    "Raccoons can briefly stand upright on their hind legs to reach higher objects or food.",
+    "Common den sites for raccoons include hollow logs, abandoned burrows, or attic spaces in human structures.",
+    "Raccoons' native range extends from southern Canada to parts of Central America, although introduced populations exist elsewhere.",
+    "Raccoons use facial expressions and ear movements to signal mood and alertness to other raccoons.",
+    "Urban raccoons may have smaller home ranges, thanks to abundant trash and pet food.",
+    "Raccoons are frequent subjects of scientific studies on mammalian cognition due to their problem-solving abilities.",
+    "Raccoons' eyes reflect light intensely at night, creating a bright 'glow' under headlights.",
+    "Compared to some similar-sized mammals, raccoons have a relatively high metabolic rate.",
+    "Young raccoons typically start venturing outside the den at about 8 to 10 weeks old.",
+    "While primarily nocturnal, raccoons may forage during the day if food sources are limited.",
+    "Raccoons can adjust their territory size depending on the availability of resources.",
+    "Raccoons' hearing is quite acute, aiding in detecting predators and other raccoons.",
+    "Certain raccoons have quirky habits like flipping rocks or rummaging through pockets for treats.",
+    "Raccoons' underfur provides insulation while the outer guard hairs help repel water.",
+    "By eating fruit and later depositing seeds, raccoons assist in dispersing plant species.",
+    "Raccoons often appear as main characters in children’s books and cartoons.",
+    "Rare anecdotal reports exist of raccoons briefly riding on alligators in Florida marshes.",
+    "The ring patterns on raccoons' tails may fade or become irregular with age or environmental factors.",
+    "Raccoons can remember specific foraging spots across seasons, adjusting travel routes accordingly.",
+    "When cornered, raccoons may hiss and bare their teeth but generally prefer escape over confrontation.",
+    "Some studies indicate raccoons can produce over 50 distinct vocalizations.",
+    "If food and den sites are plentiful, raccoon populations can grow rapidly.",
+    "Raccoons sometimes groom each other during social encounters, though this is uncommon.",
+    "In captivity, raccoons have opened puzzle boxes originally designed for primates.",
+    "Strong swimming skills allow raccoons to cross rivers or lakes in search of food.",
+    "Raccoons' breeding typically occurs in late winter, but timing can vary based on climate.",
+    "Raccoons have been known to climb onto roofs to reach bird feeders and pet food dishes.",
+    "Though relatively rare, raccoons can carry rabies; some are vaccinated in rehab centers.",
+    "Raccoons can perceive some colors, but their night vision is more tuned to contrast detection.",
+    "Raccoons sometimes create temporary 'day beds' in thick brush or dense vegetation.",
+    "The density of sensory receptors in raccoons' forepaws is comparable to that of some primates.",
+    "Raccoons may mark territory with urine or scent gland secretions.",
+    "In parts of the southwestern United States, raccoons have been seen opportunistically following larger predators in hopes of scavenging.",
+    "Rather than excavating new dens, raccoons often repurpose natural cavities or abandoned burrows.",
+    "Raccoons' front paws are so sensitive that they can discern textures and shapes even in low light."
   ];
 
 // content.js
@@ -202,7 +245,24 @@ function findAndReplaceImages() {
   // Also handle <picture> elements
   const pictures = document.querySelectorAll("picture");
   pictures.forEach((picture) => {
-    replacePictureElement(picture);
+    const img = picture.querySelector("img");
+    if (img) {
+      const altText = img.alt.toLowerCase();
+      const src = img.src.toLowerCase();
+
+      if (
+        altText.includes("elon musk") ||
+        altText.includes("elon_musk") ||
+        src.includes("elonmusk") ||
+        src.includes("elon_musk") ||
+        src.includes("elon") ||
+        src.includes("musk") ||
+        src.includes("spacex") ||
+        src.includes("tesla")
+      ) {
+        replacePictureElement(picture);
+      }
+    }
   });
 }
 
@@ -324,8 +384,8 @@ browser.runtime.onMessage.addListener((message) => {
       enableReplacements();
     } else {
       disableReplacements();
-      // The background script will trigger a reload, 
-      // so we don’t need to fully restore the original content.
+      // Reload the page when the filter is turned off
+      location.reload();
     }
   }
 });
