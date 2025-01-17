@@ -1,6 +1,4 @@
-// background.js (Firefox-only)
-
-let filterEnabled = true; // Default state is ON
+let filterEnabled = true;
 
 browser.runtime.onMessage.addListener((request, sender) => {
   if (request.action === "setFilterState") {

@@ -1,4 +1,3 @@
-// Placeholder for raccoon facts
 const raccoonFacts = [
     "Raccoons are highly intelligent and can solve puzzles in less than ten attempts.",
     "Raccoons have dexterous front paws with five fingers, allowing them to open jars and doors.",
@@ -88,18 +87,12 @@ const raccoonFacts = [
     "Raccoons' front paws are so sensitive that they can discern textures and shapes even in low light."
   ];
 
-// content.js
 
-
-/**
- * Return a random raccoon fact
- */
 function getRandomRaccoonFact() {
   const index = Math.floor(Math.random() * raccoonFacts.length);
   return raccoonFacts[index];
 }
 
-// We'll store a reference to our single observer here
 let observer = null;
 
 /**
@@ -139,20 +132,17 @@ function initializeExtension() {
 function enableReplacements() {
   console.log("De-Muskifier: Enabled");
 
-  // Run replacements immediately
   runReplacements();
 
-  // If we already had an observer, disconnect it first
   if (observer) {
     observer.disconnect();
   }
 
-  // Create a new observer to watch for added nodes in the DOM
   observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       if (mutation.addedNodes && mutation.addedNodes.length > 0) {
         runReplacements();
-        break; // We only need to run once per batch
+        break;
       }
     }
   });
@@ -184,9 +174,9 @@ function runReplacements() {
   replaceElonMuskProfileAndPosts();
 }
 
-// ----------------------------------------------------------------------
-// 1. Replace text referencing "elon", "musk", etc. with a random fact
-// ----------------------------------------------------------------------
+/**
+ * Replace text referencing "elon", "musk", etc. with a random fact 
+ */
 function findAndReplaceText() {
   const keywords = /elon musk|elon|musk|spacex|tesla/i;
   const walker = document.createTreeWalker(
@@ -209,7 +199,6 @@ function replaceTextNode(node) {
   console.log(`Replacing text: "${node.nodeValue.trim()}" -> "${randomFact}"`);
   node.nodeValue = randomFact;
 
-  // Optionally replace a nearby image
   const parentElement = node.parentElement;
   if (parentElement) {
     const nearbyImage = parentElement.querySelector("img");
@@ -219,9 +208,9 @@ function replaceTextNode(node) {
   }
 }
 
-// ----------------------------------------------------------------------
-// 2. Replace images containing Musk/Tesla/SpaceX references
-// ----------------------------------------------------------------------
+/**
+ * Replace images containing Musk/Tesla/SpaceX references
+ */
 function findAndReplaceImages() {
   const images = document.querySelectorAll("img");
   images.forEach((img) => {
@@ -242,7 +231,6 @@ function findAndReplaceImages() {
     }
   });
 
-  // Also handle <picture> elements
   const pictures = document.querySelectorAll("picture");
   pictures.forEach((picture) => {
     const img = picture.querySelector("img");
@@ -275,7 +263,7 @@ function replaceImageElement(img) {
   console.log(`Replacing image: ${img.src} -> ${newSrc} | Alt: ${randomFact}`);
 
   img.src = newSrc;
-  img.srcset = ""; // Clear srcset
+  img.srcset = "";
   img.alt = randomFact;
 
   replaceCaption(img);
@@ -312,20 +300,17 @@ function replacePictureElement(picture) {
   }
 }
 
-// ----------------------------------------------------------------------
-// 3. X.com-specific (Elon’s profile picture, tweet content, etc.)
-// ----------------------------------------------------------------------
+/**
+ * X.com-specific
+ */
 function replaceElonMuskProfileAndPosts() {
-  // Wrap the DOM modifications so we disconnect the observer first
   safeModifyDOM(() => {
-    // Replace profile pictures in tweets
     const tweets = document.querySelectorAll('article[data-testid="tweet"]');
     tweets.forEach((tweet) => {
       const userLink = tweet.querySelector('a[href*="/elonmusk"]');
       if (userLink) {
         replaceParentWithRaccoonImage(tweet);
 
-        // Replace entire tweet text with a random fact
         const tweetTextContainer = tweet.querySelector('div[data-testid="tweetText"]');
         if (tweetTextContainer) {
           const randomFact = getRandomRaccoonFact();
@@ -337,7 +322,6 @@ function replaceElonMuskProfileAndPosts() {
           tweetTextContainer.textContent = randomFact;
         }
 
-        // Remove retweet content, if any
         const retweetContent = tweet.querySelector('[aria-labelledby]');
         if (retweetContent) {
           console.log(`Removing retweet content: ${retweetContent.id}`);
@@ -346,7 +330,6 @@ function replaceElonMuskProfileAndPosts() {
       }
     });
 
-    // Replace profile pictures in other areas
     const profileLinks = document.querySelectorAll('a[href*="/elonmusk"]');
     profileLinks.forEach((link) => {
       const parentElement = link.closest('div');
@@ -374,22 +357,18 @@ function replaceParentWithRaccoonImage(element) {
   }
 }
 
-// ----------------------------------------------------------------------
-// Listen for messages from popup (or background) to toggle on/off
-// ----------------------------------------------------------------------
-// In content.js
+/**
+ * Listen for messages from popup (or background) to toggle on/off
+ */
 browser.runtime.onMessage.addListener((message) => {
   if (typeof message.filterEnabled === "boolean") {
     if (message.filterEnabled) {
       enableReplacements();
     } else {
       disableReplacements();
-      // Reload the page when the filter is turned off
       location.reload();
     }
   }
 });
 
-
-// Finally, initialize the extension:
 initializeExtension();
