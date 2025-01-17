@@ -1,0 +1,42 @@
+{
+    "manifest_version": 2,
+    "name": "De-Muskifier",
+    "version": "1.0",
+    "description": "Replace all instances of Elon Musk with raccoons.",
+    "permissions": [
+      "storage"
+    ],
+    "browser_specific_settings": {
+      "gecko": {
+        "id": "demuskifier@example.com"
+      }
+    },
+  
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"],
+        "run_at": "document_end"
+      }
+    ],
+  
+    "browser_action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+      }
+    },
+  
+    "icons": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    },
+  
+    "web_accessible_resources": [
+      "twitter_pfp.png"
+    ]
+  }
+  

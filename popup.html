@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>De-Muskifier</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        padding: 20px;
+        text-align: center;
+        color: #333;
+    }
+    
+    h1 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #0056b3;
+    }
+    
+    #status {
+        font-size: 16px;
+        margin: 15px 0;
+        font-weight: bold;
+    }
+    
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 25px; /* Rounded corners */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease; /* Smooth hover transition */
+    }
+    
+    button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px); /* Hover effect: slight lift */
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow */
+    }
+    
+    button:active {
+        transform: translateY(1px); /* Button press effect */
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    }
+  
+  </style>
+</head>
+<body>
+  <h1>De-Muskifier</h1>
+  <div id="status"></div>
+  <button id="toggleFilter">Toggle Filter</button>
+  <script src="popup.js"></script>
+</body>
+</html>
